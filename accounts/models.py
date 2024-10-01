@@ -33,6 +33,14 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+class Treatment(models.Model):
+    nome = models.CharField('nome', max_length=55)
+
+    class Meta:
+        verbose_name = 'Tratamento'
+        verbose_name_plural = 'Tratamentos'
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     '''
     1 Identificação:
@@ -65,6 +73,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
     birth = models.DateField('nascimento', null=True, blank=True)
+    diabete = models.CharField('tipo diabete', max_length=3, choices=DIABETES_CHOICES)
+    diagnostico = models.IntegerField('diagnostico', null=True, blank=True)
+
+    peso = models.IntegerField('peso', null=True, blank=True)
+
+    bebe = models.BooleanField('bebe', null=True, blank=True)
+    fuma = models.BooleanField('fuma', null=True, blank=True)
+
+    doencas = models.TextField('doencas', null=True, blank=True)
 
     objects = UserManager()
 
