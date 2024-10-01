@@ -18,6 +18,7 @@ from decouple import config
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = PROJECT_DIR
 
+ON_RENDER = 'RENDER' in os.environ
 
 SECRET_KEY = config('SECRET_KEY')
 
@@ -28,9 +29,9 @@ DEBUG_MAIL = config("DEBUG_MAIL", default=True)
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-
 ALLOWED_HOSTS = ['*', ]
 # Application definition
+
 
 INSTALLED_APPS = [
     "home",
@@ -108,32 +109,32 @@ WSGI_APPLICATION = "mellitus.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# if not ON_RENDER:
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.db.backends.%s" % os.environ.get("DB_ENGINE"),
-#             "NAME": os.environ.get("DB_NAME"),
-#             "USER": os.environ.get("DB_USER"),
-#             "PASSWORD": os.environ.get("DB_PASSWORD"),
-#             "HOST": os.environ.get("DB_HOST"),
-#             "PORT": os.environ.get("DB_PORT"),
-#         }
-#     }
-# else:
+if not ON_RENDER:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.%s" % os.environ.get("DB_ENGINE"),
+            "NAME": os.environ.get("DB_NAME"),
+            "USER": os.environ.get("DB_USER"),
+            "PASSWORD": os.environ.get("DB_PASSWORD"),
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
+        }
+    }
+else:
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#     }
-# }
+    # DATABASES = {
+    #     "default": {
+    #         "ENGINE": "django.db.backends.sqlite3",
+    #         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    #     }
+    # }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DB_URL"),
-        conn_max_age=600
-    )
-}
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get("DB_URL"),
+            conn_max_age=600
+        )
+    }
 
 
 
