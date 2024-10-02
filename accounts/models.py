@@ -2,8 +2,10 @@ from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -32,32 +34,40 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
-
+@register_snippet
 class Treatment(models.Model):
     nome = models.CharField('nome', max_length=55)
 
+    panels = [
+        FieldPanel("nome"),
+    ]
+
+    def __str__(self):
+        return self.nome
+
     class Meta:
+        db_table = "treatments"
         verbose_name = 'Tratamento'
         verbose_name_plural = 'Tratamentos'
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     '''
-    1 Identificação:
-    Data de nascimento;
-    Tipo de diabetes (  ) tipo 1  (  ) tipo 2
-    Tempo de diagnóstico do diabetes (anos)
-    Peso
-    Altura
-    outras doenças.
-    Tipo de tratamento:
-    (  ) Medicamentos orais 
-    (  ) medicamentos orais+ dieta
-    (  ) medicamentos orais + insulina
-    (  ) insulina
-    (  ) medicamentos orais+insulina+dieta
-    Você faz uso de bebida alcoólica (sim/ não); 
-    Você fuma (sim/não)
+        1 Identificação:
+        Data de nascimento;
+        Tipo de diabetes (  ) tipo 1  (  ) tipo 2
+        Tempo de diagnóstico do diabetes (anos)
+        Peso
+        Altura
+        outras doenças.
+        Tipo de tratamento:
+        (  ) Medicamentos orais 
+        (  ) medicamentos orais+ dieta
+        (  ) medicamentos orais + insulina
+        (  ) insulina
+        (  ) medicamentos orais+insulina+dieta
+        Você faz uso de bebida alcoólica (sim/ não); 
+        Você fuma (sim/não)
 
     '''
 
@@ -83,12 +93,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     doencas = models.TextField('doencas', null=True, blank=True)
 
+    tratamentos = models.ManyToManyField(Treatment)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    def __str__(self):
+        return self.email
+
     class Meta:
+        db_table = "users"
         verbose_name = _('user')
         verbose_name_plural = _('users')
 

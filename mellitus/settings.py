@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     "wagtail.embeds",
     "wagtail.sites",
-    "wagtail.users",
+    "accounts",
+    "accounts.apps.AccountsAppConfig",
+    # "wagtail.users",
     "wagtail.snippets",
     "wagtail.documents",
     "wagtail.images",
@@ -105,7 +107,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mellitus.wsgi.application"
 
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
