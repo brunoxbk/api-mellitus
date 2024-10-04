@@ -4,6 +4,9 @@ from .forms import CustomUserCreationForm, CustomUserEditForm
 
 
 class UserViewSet(WagtailUserViewSet):
+    create_template_name = "accounts/users/create.html"
+    edit_template_name = "accounts/users/edit.html"
+    
     def get_form_class(self, for_update=False):
         if for_update:
             return CustomUserEditForm

@@ -1,0 +1,10 @@
+{% extends "wagtailusers/users/create.html" %}
+
+{% block extra_fields %}
+    <li>{% include "wagtailadmin/shared/field.html" with field=form.birth %}</li>
+    <li>{% include "wagtailadmin/shared/field.html" with field=form.diabete %}</li>
+    <li>{% include "wagtailadmin/shared/field.html" with field=form.diagnostico %}</li>
+    <li>{% include "wagtailadmin/shared/field.html" with field=form.bebe %}</li>
+    <li>{% include "wagtailadmin/shared/field.html" with field=form.fuma %}</li>
+    <li>{% include "wagtailadmin/shared/field.html" with field=form.tratamentos %}</li>
+{% endblock extra_fields %}

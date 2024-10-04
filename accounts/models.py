@@ -83,8 +83,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
     birth = models.DateField('nascimento', null=True, blank=True)
-    diabete = models.CharField('tipo diabete', max_length=3, choices=DIABETES_CHOICES)
-    diagnostico = models.IntegerField('diagnostico', null=True, blank=True)
+    diabetes = models.CharField(
+        'tipo diabetes', max_length=3, choices=DIABETES_CHOICES, null=True, blank=True)
+    diagnostico = models.IntegerField('tempo de diagnostico', null=True, blank=True)
 
     peso = models.IntegerField('peso', null=True, blank=True)
 

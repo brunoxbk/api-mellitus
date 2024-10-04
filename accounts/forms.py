@@ -10,7 +10,10 @@ class CustomUserEditForm(UserEditForm):
     # Use ModelForm's automatic form fields generation for the model's `country` field,
     # but use an explicit custom form field for `status`.
     class Meta(UserEditForm.Meta):
-        fields = UserEditForm.Meta.fields | {"bebe", "fuma"}
+        fields = UserEditForm.Meta.fields | {
+            "bebe", "fuma", "diagnostico", "diabetes",
+            "peso", "doencas", "tratamentos"
+        }
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -19,4 +22,7 @@ class CustomUserCreationForm(UserCreationForm):
     # Use ModelForm's automatic form fields generation for the model's `country` field,
     # but use an explicit custom form field for `status`.
     class Meta(UserCreationForm.Meta):
-        fields = UserCreationForm.Meta.fields | {"bebe", "fuma"}
+        fields = UserCreationForm.Meta.fields | {
+            "bebe", "fuma", "diagnostico", "diabetes",
+            "peso", "doencas", "tratamentos"
+        }
