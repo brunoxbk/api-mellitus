@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     # others
     "corsheaders",
-    "instruments"
+    "instruments",
+    "todo"
 ]
 
 MIDDLEWARE = [
@@ -117,12 +118,12 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
 if not ON_RENDER:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.%s" % os.environ.get("DB_ENGINE"),
-            "NAME": os.environ.get("DB_NAME"),
-            "USER": os.environ.get("DB_USER"),
-            "PASSWORD": os.environ.get("DB_PASSWORD"),
-            "HOST": os.environ.get("DB_HOST"),
-            "PORT": os.environ.get("DB_PORT"),
+            "ENGINE": "django.db.backends.%s" % config("DB_ENGINE"),
+            "NAME": config("DB_NAME"),
+            "USER": config("DB_USER"),
+            "PASSWORD": config("DB_PASSWORD"),
+            "HOST": config("DB_HOST"),
+            "PORT": config("DB_PORT"),
         }
     }
 else:
