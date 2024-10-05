@@ -8,9 +8,9 @@ from wagtail.snippets.models import register_snippet
 @register_snippet
 class Task(models.Model):
     STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('in_progress', 'In Progress'),
-        ('completed', 'Completed'),
+        ('pending', 'Pendente'),
+        # ('in_progress', 'In Progress'),
+        ('completed', 'Completo'),
     )
 
     title = models.CharField(max_length=255)
@@ -28,6 +28,12 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        # db_table = "answer_sheets"
+        verbose_name = "Lembrete"
+        verbose_name_plural = "Lembretes"
+        ordering = ['-created_at']
 
     def is_overdue(self):
         return self.due_date and timezone.now() > self.due_date and self.status != 'completed'
