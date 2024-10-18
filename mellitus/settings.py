@@ -239,7 +239,9 @@ WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'tx
 REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'jwt-auth',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -252,6 +254,8 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
 }
+
+# REST_USE_JWT=True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
