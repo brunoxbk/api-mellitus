@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from accounts.models import User
+from accounts.models import User, Treatment
+
+class TreatmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Treatment
+        fields = ['id', 'nome']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

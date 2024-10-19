@@ -33,6 +33,7 @@ urlpatterns = urlpatterns + [
     # the list:
     
     path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/auth/", include("accounts.urls")),
     path("api/auth/registration/", include("dj_rest_auth.registration.urls")),
     path("api/instruments/", include("instruments.urls")),
     path("api/todo/", include("todo.urls")),
