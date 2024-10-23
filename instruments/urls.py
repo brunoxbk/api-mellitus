@@ -1,16 +1,18 @@
 from django.urls import path
 from .views import (
-    FormListCreateView, FormDetailView, 
-    QuestionListCreateView, QuestionDetailView, 
-    ChoiceListCreateView, ChoiceDetailView, 
+    FormListCreateView, FormDetailView,
+    QuestionListCreateView, QuestionDetailView,
+    ChoiceListCreateView, ChoiceDetailView,
     AnswerSheetListCreateView, AnswerSheetDetailView,
-    AnswerListCreateView, AnswerDetailView
+    AnswerListCreateView, AnswerDetailView,
+    QuestionBulkCreateView
 )
 
 urlpatterns = [
     path('forms/', FormListCreateView.as_view(), name='form-list-create'),
     path('forms/<int:pk>/', FormDetailView.as_view(), name='form-detail'),
     path('questions/', QuestionListCreateView.as_view(), name='question-list-create'),
+    path('questions-bulk/', QuestionBulkCreateView.as_view(), name='question-bulk-create'),
     path('questions/<int:pk>/', QuestionDetailView.as_view(), name='question-detail'),
     path('choices/', ChoiceListCreateView.as_view(), name='choice-list-create'),
     path('choices/<int:pk>/', ChoiceDetailView.as_view(), name='choice-detail'),

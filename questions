@@ -1,0 +1,137 @@
+[
+  {
+    "text": "Qual destas afirmações é verdadeira?",
+		"form": 1,
+    "choices": [
+      { "text": "Não importa se a sua diabete não está sob controle, desde que você não entre em coma;", "is_correct": false },
+      { "text": "É melhor apresentar um pouco de açúcar na urina para evitar a hipoglicemia;", "is_correct": false },
+      { "text": "O controle mal feito do diabete pode resultar numa chance maior de complicações mais tarde;", "is_correct": true },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "A faixa de variação NORMAL de glicose no sangue é de:",
+		"form": 1,
+    "choices": [
+      { "text": "70 – 110 mg/dl", "is_correct": true },
+      { "text": "70 – 140 mg/dl", "is_correct": false },
+      { "text": "50 – 200 mg/dl", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "A manteiga é composta principalmente de:",
+		"form": 1,
+    "choices": [
+      { "text": "Proteínas", "is_correct": false },
+      { "text": "Carboidratos", "is_correct": false },
+      { "text": "Gordura", "is_correct": true },
+      { "text": "Minerais e Vitaminas", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "O arroz é composto principalmente de:",
+		"form": 1,
+    "choices": [
+      { "text": "Proteínas", "is_correct": false },
+      { "text": "Carboidratos", "is_correct": true },
+      { "text": "Gordura", "is_correct": false },
+      { "text": "Minerais e vitaminas", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "A presença de cetonas na urina é:",
+		"form": 1,
+    "choices": [
+      { "text": "Um bom sinal", "is_correct": false },
+      { "text": "Um mau sinal", "is_correct": true },
+      { "text": "Encontrado normalmente em quem tem diabete", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "Quais das possíveis complicações abaixo NÃO estão geralmente associados à diabete?",
+		"form": 1,
+    "choices": [
+      { "text": "Alterações na visão", "is_correct": false },
+      { "text": "Alterações nos rins", "is_correct": false },
+      { "text": "Alterações nos pulmões", "is_correct": true },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "Se uma pessoa que está tomando insulina apresenta uma taxa alta de açúcar no sangue ou na urina, assim como presença de cetonas, ela deve:",
+		"form": 1,
+    "choices": [
+      { "text": "Aumentar a insulina", "is_correct": true },
+      { "text": "Diminuir a insulina", "is_correct": false },
+      { "text": "Manter a mesma quantidade de insulina e a mesma dieta e fazer um exame de sangue e urina mais tarde", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "Se uma pessoa com diabete está tomando insulina e fica doente ou não consegue comer a dieta receitada",
+		"form": 1,
+    "choices": [
+      { "text": "Ela deve parar de tomar insulina imediatamente", "is_correct": false },
+      { "text": "Ela deve continuar a tomar insulina", "is_correct": true },
+      { "text": "Ela deve usar hipoglicemiante oral para diabete em vez da insulina", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "Se você sente que a hipoglicemia está começando, você deve:",
+		"form": 1,
+    "choices": [
+      { "text": "Tomar insulina ou hipoglicemiante oral imediatamente", "is_correct": false },
+      { "text": "Deitar-se ou beber algo doce", "is_correct": false },
+      { "text": "Comer ou beber algo doce imediatamente", "is_correct": true },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "Você pode comer o quanto quiser dos seguintes ALIMENTOS:",
+		"form": 1,
+    "choices": [
+      { "text": "Maçã", "is_correct": false },
+      { "text": "Alface e agrião", "is_correct": true },
+      { "text": "Carne", "is_correct": false },
+      { "text": "Mel", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "A hipoglicemia é causada por:",
+		"form": 1,
+    "choices": [
+      { "text": "Excesso de insulina", "is_correct": true },
+      { "text": "Pouca insulina", "is_correct": false },
+      { "text": "Pouco exercício", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "Um QUILO é",
+		"form": 1,
+    "choices": [
+      { "text": "Uma unidade de peso", "is_correct": true },
+      { "text": "Igual a 1000 gramas", "is_correct": true },
+      { "text": "Uma unidade de energia", "is_correct": false },
+      { "text": "Um pouco mais que duas gramas", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  },
+  {
+    "text": "Duas das seguintes substituições são corretas",
+		"form": 1,
+    "choices": [
+      { "text": "Um pão francês é igual a quatro (4) biscoitos de água e sal", "is_correct": true },
+      { "text": "Um ovo é igual a uma porção de carne moída", "is_correct": true },
+      { "text": "Um copo de leite é igual a um copo de suco de laranja", "is_correct": false },
+      { "text": "Uma sopa de macarrão é igual a uma sopa de legumes", "is_correct": false },
+      { "text": "Não sei", "is_correct": false }
+    ]
+  }
+]
