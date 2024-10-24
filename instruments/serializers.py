@@ -8,9 +8,10 @@ class ChoiceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ChoiceNestedSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Choice
-        fields = ['text', 'is_correct', 'weight']
+        fields = ['id', 'text', 'is_correct', 'weight']
 
 class QuestionSerializer(serializers.ModelSerializer):
     choices = ChoiceNestedSerializer(many=True, required=False)
