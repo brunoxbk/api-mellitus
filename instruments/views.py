@@ -5,7 +5,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from instruments.models import Form, Question, Choice, AnswerSheet, Answer
-from instruments.serializers import FormSerializer, QuestionSerializer, ChoiceSerializer, AnswerSheetSerializer, AnswerSerializer
+from instruments.serializers import FormSerializer, QuestionSerializer, \
+    ChoiceSerializer, AnswerSheetSerializer, AnswerSerializer
 
 
 class FormListCreateView(generics.ListCreateAPIView):
@@ -66,4 +67,37 @@ class QuestionBulkCreateView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubmitAnswersView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        serializer = AnswerSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            form = serializer.validated_data['form']
+            answers = serializer.validated_data['answers']
+
+            answer_sheet, created = AnswerSheet.objects.get_or_create(
+                form_id=form,
+                user=user,
+            )
+
+            for question, choice in answers.items():
+                answer, created = Answer.objects.get_or_create(
+                    answer_sheet=answer_sheet,
+                    question=question,
+                    defaults={
+                        'choice': choice
+                    }
+                )
+
+                answer.choice = choice
+                answer.save()
+
+            return Response({"message": "Answers submitted successfully."}, status=status.HTTP_201_CREATED)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

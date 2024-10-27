@@ -5,7 +5,7 @@ from .views import (
     ChoiceListCreateView, ChoiceDetailView,
     AnswerSheetListCreateView, AnswerSheetDetailView,
     AnswerListCreateView, AnswerDetailView,
-    QuestionBulkCreateView
+    QuestionBulkCreateView, SubmitAnswersView
 )
 
 urlpatterns = [
@@ -20,4 +20,5 @@ urlpatterns = [
     path('answer-sheets/<int:pk>/', AnswerSheetDetailView.as_view(), name='answer-sheet-detail'),
     path('answers/', AnswerListCreateView.as_view(), name='answer-list-create'),
     path('answers/<int:pk>/', AnswerDetailView.as_view(), name='answer-detail'),
+    path('submit-answers/', SubmitAnswersView.as_view(), name='submit-answers'),
 ]

@@ -105,7 +105,7 @@ class Choice(ClusterableModel):
 
 @register_snippet
 class AnswerSheet(models.Model):
-    form = models.ForeignKey(Choice, related_name='form_sheet_answers', on_delete=models.CASCADE)
+    form = models.ForeignKey(Form, related_name='form_sheet_answers', on_delete=models.CASCADE)
     user = CurrentUserField("Usuário", verbose_name="Usuário")
 
     created_at = models.DateTimeField(
@@ -139,7 +139,7 @@ class Answer(models.Model):
         "Alterado em", editable=False, auto_now=True)
 
     def __str__(self):
-        return f'User: {self.answer_sheet.user.username}, Question: {self.question.text}, Choice: {self.choice.text}'
+        return f'User: {self.answer_sheet.user.email}, Question: {self.question.text}, Choice: {self.choice.text}'
 
     class Meta:
         unique_together = ('answer_sheet', 'question')

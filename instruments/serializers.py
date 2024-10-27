@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from instruments.models import Form, Question, Choice, AnswerSheet, Answer
+from instruments.models import Form, Question, \
+    Choice, AnswerSheet, Answer
 
 
 class ChoiceSerializer(serializers.ModelSerializer):
@@ -34,13 +35,34 @@ class FormSerializer(serializers.ModelSerializer):
         model = Form
         fields = '__all__'
 
-class AnswerSerializer(serializers.ModelSerializer):
+
+class AnswerSerializer(serializers.Serializer):
+    form = serializers.IntegerField()
+    answers = serializers.DictField(child=serializers.IntegerField())
+
+    def validate_answers(self, answers):
+        validated_answers = {}
+        for key, choice_id in answers.items():
+            question_id = int(key.split('_')[1])
+
+            try:
+                question = Question.objects.get(id=question_id)
+                choice = Choice.objects.get(id=choice_id, question=question)
+                validated_answers[question] = choice
+            except (Question.DoesNotExist, Choice.DoesNotExist):
+                raise serializers.ValidationError(f"Invalid question or choice for {key}.")
+        
+        return validated_answers
+
+
+class AnswerListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = '__all__'
 
+
 class AnswerSheetSerializer(serializers.ModelSerializer):
-    sheet_answers = AnswerSerializer(many=True, read_only=True)
+    sheet_answers = AnswerListSerializer(many=True, read_only=True)
     
     class Meta:
         model = AnswerSheet
