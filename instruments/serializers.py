@@ -30,7 +30,17 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class FormSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True)
-    
+    answered = serializers.BooleanField(read_only=True)
+    score = serializers.IntegerField()
+    score_text = serializers.CharField()
+
+    def get_score(self, obj):
+        return obj.score
+
+    def get_score_text(self, obj):
+        return obj.score_text
+
+
     class Meta:
         model = Form
         fields = '__all__'
@@ -63,7 +73,9 @@ class AnswerListSerializer(serializers.ModelSerializer):
 
 class AnswerSheetSerializer(serializers.ModelSerializer):
     sheet_answers = AnswerListSerializer(many=True, read_only=True)
-    
+    score_knowledge = serializers.IntegerField()
+    score_knowledge_text = serializers.CharField()
+
     class Meta:
         model = AnswerSheet
         fields = '__all__'

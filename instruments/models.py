@@ -35,6 +35,25 @@ class Form(ClusterableModel):
         "Alterado em", editable=False, auto_now=True)
     # kind = models.ForeignKey(Kind, related_name='forms_kind', on_delete=models.CASCADE)
 
+    @property
+    def answered(self):
+        return self.form_sheet_answers.all().exists()
+
+    def score(self):
+        answer = self.form_sheet_answers.last()
+
+        if answer:
+            return answer.score_knowledge
+        else:
+            return 0
+
+    def score_text(self):
+        answer = self.form_sheet_answers.last()
+        if answer:
+            return answer.score_knowledge_text
+        else:
+            return ''
+
     panels = [
         FieldPanel("title"),
         FieldPanel("description"),
@@ -119,37 +138,35 @@ class AnswerSheet(models.Model):
         InlinePanel("sheet_answers"),
     ]
 
-    def calculate_attitude_score(self, responses):
+    @property
+    def score_knowledge(self):
+        return self.sheet_answers.filter(choice__is_correct=True).count()
 
-        total_score = 0
-
-        # Itera sobre as respostas e soma os valores da escala Likert (1 a 5)
-        for response in responses:
-            total_score += response['response_score']
-
-        # Avalia a atitude com base no escore
-        if total_score > 70:
-            attitude = "Atitude positiva em relação ao diabetes."
-        else:
-            attitude = "Atitude negativa em relação ao diabetes."
-
-        return total_score, attitude
-
-
-    def calculate_diabetes_knowledge_score(self, answers):
-   
-        score = 0
-
-        for answer in answers:
-            if answer['is_correct']:
-                score += 1
-
-        if score > 8:
+    @property
+    def score_knowledge_text(self):
+        if self.score_knowledge > 8:
             result = "Conhecimento suficiente sobre diabetes mellitus."
         else:
             result = "Conhecimento insuficiente sobre diabetes mellitus."
 
-        return score, result
+        return result
+
+    # def calculate_attitude_score(self, responses):
+    #
+    #     total_score = 0
+    #
+    #     # Itera sobre as respostas e soma os valores da escala Likert (1 a 5)
+    #     for response in responses:
+    #         total_score += response['response_score']
+    #
+    #     # Avalia a atitude com base no escore
+    #     if total_score > 70:
+    #         attitude = "Atitude positiva em relação ao diabetes."
+    #     else:
+    #         attitude = "Atitude negativa em relação ao diabetes."
+    #
+    #     return total_score, attitude
+
 
     class Meta:
         db_table = "answer_sheets"
