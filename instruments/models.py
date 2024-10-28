@@ -119,6 +119,38 @@ class AnswerSheet(models.Model):
         InlinePanel("sheet_answers"),
     ]
 
+    def calculate_attitude_score(self, responses):
+
+        total_score = 0
+
+        # Itera sobre as respostas e soma os valores da escala Likert (1 a 5)
+        for response in responses:
+            total_score += response['response_score']
+
+        # Avalia a atitude com base no escore
+        if total_score > 70:
+            attitude = "Atitude positiva em relação ao diabetes."
+        else:
+            attitude = "Atitude negativa em relação ao diabetes."
+
+        return total_score, attitude
+
+
+    def calculate_diabetes_knowledge_score(self, answers):
+   
+        score = 0
+
+        for answer in answers:
+            if answer['is_correct']:
+                score += 1
+
+        if score > 8:
+            result = "Conhecimento suficiente sobre diabetes mellitus."
+        else:
+            result = "Conhecimento insuficiente sobre diabetes mellitus."
+
+        return score, result
+
     class Meta:
         db_table = "answer_sheets"
         verbose_name = "Gabarito"
