@@ -98,6 +98,8 @@ class SubmitAnswersView(APIView):
                 answer.choice = choice
                 answer.save()
 
-            return Response({"message": "Answers submitted successfully."}, status=status.HTTP_201_CREATED)
+            return Response({
+                "form": FormSerializer(answer_sheet.form).data,
+                "message": "Answers submitted successfully."}, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
