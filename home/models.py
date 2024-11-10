@@ -39,6 +39,7 @@ class Category(models.Model):
 
 class PostPage(Page):
     body = RichTextField(blank=True)
+    subtitle = models.CharField(max_length=255, blank=False, null=True)
 
     categories = ParentalManyToManyField(Category, blank=True)
 
@@ -47,8 +48,8 @@ class PostPage(Page):
         APIField('categories'),
     ]
 
-
     content_panels = Page.content_panels + [
+        FieldPanel('subtitle'),
         FieldPanel('body'),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
     ]

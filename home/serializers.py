@@ -77,7 +77,7 @@ class PostPageSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "title",
-            "slug",
+            "subtitle",
             "body",
             "categories",
             "owner"
