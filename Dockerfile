@@ -23,9 +23,13 @@ RUN pip install poetry
 RUN poetry install --no-interaction --no-ansi
 
 # Copy entrypoint.sh
-COPY --chmod=755 ./entrypoint.sh /app/entrypoint.sh
+COPY --chmod=755 entrypoint.sh /app/entrypoint.sh
 
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +X /app/entrypoint.sh
 
 # Copy the application code
 COPY . /app/
+
+EXPOSE 5000
+
+RUN chmod +X /app/entrypoint.sh
