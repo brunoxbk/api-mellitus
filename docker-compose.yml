@@ -2,7 +2,6 @@ version: '3.7'
 services:
   web:
     build: .
-    entrypoint: /app/entrypoint.sh
     env_file:
       - ./.env
     restart: unless-stopped
