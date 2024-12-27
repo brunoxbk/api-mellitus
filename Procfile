@@ -1,3 +1,3 @@
-web: gunicorn mellitus.wsgi:application
+web: poetry run gunicorn mellitus.wsgi:application
 
-release: django-admin migrate --noinput
+release: poetry run python migrate --noinput && poetry run python manage.py collectstatic --noinput --clear
