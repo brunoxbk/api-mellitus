@@ -19,7 +19,7 @@ from datetime import timedelta
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = PROJECT_DIR
 
-ON_RENDER = 'RENDER' in os.environ
+ON_RENDER = 'DATABASE_URL' in os.environ
 
 SECRET_KEY = config('SECRET_KEY')
 
@@ -139,7 +139,7 @@ else:
 
     DATABASES = {
         'default': dj_database_url.config(
-            default=os.environ.get("DB_URL"),
+            default=os.environ.get("DATABASE_URL"),
             conn_max_age=600
         )
     }

@@ -7,6 +7,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.fields import ParentalManyToManyField
 from django import forms
 from wagtail.api import APIField
+from wagtail.images.models import Image
 
 class HomePage(Page):
     pass
@@ -43,13 +44,22 @@ class PostPage(Page):
 
     categories = ParentalManyToManyField(Category, blank=True)
 
+    cover = models.ForeignKey(
+        'wagtailimages.Image', verbose_name="Capa",
+        null=True, blank=True, on_delete=models.SET_NULL)
+
     api_fields = [
         APIField('body'),
         APIField('categories'),
     ]
 
+    promote_panels = [
+        FieldPanel('cover'),
+    ]
+
     content_panels = Page.content_panels + [
         FieldPanel('subtitle'),
         FieldPanel('body'),
+        # FieldPanel('cover'),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
     ]

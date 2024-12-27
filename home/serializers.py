@@ -69,7 +69,7 @@ class CategoryEmbSerializer(serializers.ModelSerializer):
 
 
 class PostPageSerializer(serializers.ModelSerializer):
-
+    cover = ImageEmbSerializer()
     categories = CategoryEmbSerializer(many=True)
     
     class Meta:
@@ -80,6 +80,7 @@ class PostPageSerializer(serializers.ModelSerializer):
             "subtitle",
             "body",
             "categories",
-            "owner"
+            "owner",
+            "cover"
         ]
 
