@@ -29,7 +29,3 @@ RUN chmod +X /app/entrypoint.sh
 
 # Copy the application code
 COPY . /app/
-
-EXPOSE 5000
-
-RUN chmod +X /app/entrypoint.sh
