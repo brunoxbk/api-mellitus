@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-
+from django.shortcuts import get_object_or_404
 from instruments.models import Form, Question, Choice, AnswerSheet, Answer
 from instruments.serializers import FormSerializer, QuestionSerializer, \
     ChoiceSerializer, AnswerSheetSerializer, AnswerSerializer
@@ -103,3 +103,18 @@ class SubmitAnswersView(APIView):
                 "message": "Answers submitted successfully."}, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ClearAnswersView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk, *args, **kwargs):
+        user = self.request.user
+        form = get_object_or_404(Form, pk=pk, user=user)
+        
+        try:
+            return Response({
+                "form": FormSerializer(form).data,
+                "message": "Answers submitted successfully."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
