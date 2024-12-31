@@ -31,8 +31,8 @@ class QuestionSerializer(serializers.ModelSerializer):
 class FormSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True)
     answered = serializers.BooleanField(read_only=True)
-    score = serializers.IntegerField()
-    score_text = serializers.CharField()
+    score = serializers.IntegerField(read_only=True)
+    score_text = serializers.CharField(read_only=True)
 
     def get_score(self, obj):
         return obj.score
