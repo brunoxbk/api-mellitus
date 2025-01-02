@@ -5,8 +5,13 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from instruments.models import Form, Question, Choice, AnswerSheet, Answer
-from instruments.serializers import FormSerializer, QuestionSerializer, \
-    ChoiceSerializer, AnswerSheetSerializer, AnswerSerializer
+from instruments.serializers import (
+    FormSerializer,
+    QuestionSerializer,
+    ChoiceSerializer,
+    AnswerSheetSerializer,
+    AnswerSerializer,
+)
 
 
 class FormListCreateView(generics.ListCreateAPIView):
@@ -14,45 +19,54 @@ class FormListCreateView(generics.ListCreateAPIView):
     serializer_class = FormSerializer
     permission_classes = [AllowAny]
 
+
 class FormDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Form.objects.all()
     serializer_class = FormSerializer
     permission_classes = [IsAuthenticated]
+
 
 class QuestionListCreateView(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [AllowAny]
 
+
 class QuestionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticated]
+
 
 class ChoiceListCreateView(generics.ListCreateAPIView):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
     permission_classes = [AllowAny]
 
+
 class ChoiceDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
     permission_classes = [IsAuthenticated]
+
 
 class AnswerSheetListCreateView(generics.ListCreateAPIView):
     queryset = AnswerSheet.objects.all()
     serializer_class = AnswerSheetSerializer
     permission_classes = [IsAuthenticated]
 
+
 class AnswerSheetDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = AnswerSheet.objects.all()
     serializer_class = AnswerSheetSerializer
     permission_classes = [IsAuthenticated]
 
+
 class AnswerListCreateView(generics.ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticated]
+
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Answer.objects.all()
@@ -62,6 +76,7 @@ class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class QuestionBulkCreateView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
         serializer = QuestionSerializer(data=request.data, many=True)
         if serializer.is_valid():
@@ -76,10 +91,10 @@ class SubmitAnswersView(APIView):
     def post(self, request, *args, **kwargs):
         user = self.request.user
         serializer = AnswerSerializer(data=request.data)
-        
+
         if serializer.is_valid():
-            form = serializer.validated_data['form']
-            answers = serializer.validated_data['answers']
+            form = serializer.validated_data["form"]
+            answers = serializer.validated_data["answers"]
 
             answer_sheet, created = AnswerSheet.objects.get_or_create(
                 form_id=form,
@@ -90,18 +105,20 @@ class SubmitAnswersView(APIView):
                 answer, created = Answer.objects.get_or_create(
                     answer_sheet=answer_sheet,
                     question=question,
-                    defaults={
-                        'choice': choice
-                    }
+                    defaults={"choice": choice},
                 )
 
                 answer.choice = choice
                 answer.save()
 
-            return Response({
-                "form": FormSerializer(answer_sheet.form).data,
-                "message": "Answers submitted successfully."}, status=status.HTTP_201_CREATED)
-        
+            return Response(
+                {
+                    "form": FormSerializer(answer_sheet.form).data,
+                    "message": "Answers submitted successfully.",
+                },
+                status=status.HTTP_201_CREATED,
+            )
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -110,11 +127,17 @@ class ClearAnswersView(APIView):
 
     def post(self, request, pk, *args, **kwargs):
         user = self.request.user
-        form = get_object_or_404(Form, pk=pk, user=user)
-        
+        form = get_object_or_404(Form, pk=pk)
+
+        AnswerSheet.objects.filter(form=form, user=user).delete()
+
         try:
-            return Response({
-                "form": FormSerializer(form).data,
-                "message": "Answers submitted successfully."}, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "form": FormSerializer(form).data,
+                    "message": "Answers submitted successfully.",
+                },
+                status=status.HTTP_200_OK,
+            )
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)

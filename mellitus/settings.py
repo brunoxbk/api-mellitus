@@ -244,13 +244,14 @@ REST_AUTH = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
