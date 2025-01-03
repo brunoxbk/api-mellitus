@@ -19,9 +19,9 @@ from datetime import timedelta
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = PROJECT_DIR
 
-ON_RENDER = 'DATABASE_URL' in os.environ
+ON_RENDER = "DATABASE_URL" in os.environ
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config("SECRET_KEY")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -30,7 +30,9 @@ DEBUG_MAIL = config("DEBUG_MAIL", default=True)
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*', ]
+ALLOWED_HOSTS = [
+    "*",
+]
 # Application definition
 
 
@@ -58,7 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-     #
+    #
     "rest_framework",
     "rest_framework.authtoken",
     "allauth",
@@ -67,10 +69,11 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "dj_rest_auth.registration",
     # others
-    'django_filters',
+    "django_filters",
     "corsheaders",
     "instruments",
-    "todo"
+    "medications",
+    "todo",
 ]
 
 MIDDLEWARE = [
@@ -83,10 +86,10 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    'django_currentuser.middleware.ThreadLocalUserMiddleware',
+    "django_currentuser.middleware.ThreadLocalUserMiddleware",
 ]
 
-CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = "mellitus.urls"
 
@@ -110,9 +113,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mellitus.wsgi.application"
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = "accounts.User"
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "email"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -138,12 +141,10 @@ else:
     # }
 
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get("DATABASE_URL"),
-            conn_max_age=600
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"), conn_max_age=600
         )
     }
-
 
 
 # Password validation
@@ -208,10 +209,10 @@ STORAGES = {
 }
 
 if DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
     # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 # Wagtail settings
@@ -234,51 +235,58 @@ WAGTAILADMIN_BASE_URL = "http://example.com"
 # This can be omitted to allow all files, but note that this may present a security risk
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
-WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+WAGTAILDOCS_EXTENSIONS = [
+    "csv",
+    "docx",
+    "key",
+    "odt",
+    "pdf",
+    "pptx",
+    "rtf",
+    "txt",
+    "xlsx",
+    "zip",
+]
 
 
 REST_AUTH = {
-    'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'jwt-auth',
-    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "jwt-auth",
+    "USER_DETAILS_SERIALIZER": "accounts.serializers.UserSerializer",
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),
     # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    "DEFAULT_AUTHENTICATION_CLASSES": (
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 # REST_USE_JWT=True
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 if DEBUG_MAIL:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=False)
-EMAIL_HOST = config('EMAIL_HOST', cast=str, default='')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str, default='')
-EMAIL_PORT = config('EMAIL_PORT', cast=int, default=587)
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str, default='')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', cast=str, default='')
-
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=False)
+EMAIL_HOST = config("EMAIL_HOST", cast=str, default="")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default="")
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default=587)
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default="")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", cast=str, default="")
 
 
 WAGTAIL_SITE_NAME = "Admin"
 
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

@@ -8,13 +8,13 @@ from wagtail.snippets.models import register_snippet
 @register_snippet
 class Task(models.Model):
     STATUS_CHOICES = (
-        ('pending', 'Pendente'),
+        ("pending", "Pendente"),
         # ('in_progress', 'In Progress'),
-        ('completed', 'Completo'),
+        ("completed", "Completo"),
     )
 
     title = models.CharField(max_length=255)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(blank=True, null=True)
     user = CurrentUserField("Usuário", verbose_name="Usuário")
@@ -33,7 +33,11 @@ class Task(models.Model):
         # db_table = "answer_sheets"
         verbose_name = "Lembrete"
         verbose_name_plural = "Lembretes"
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
     def is_overdue(self):
-        return self.due_date and timezone.now() > self.due_date and self.status != 'completed'
+        return (
+            self.due_date
+            and timezone.now() > self.due_date
+            and self.status != "completed"
+        )
