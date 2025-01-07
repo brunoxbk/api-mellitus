@@ -7,6 +7,9 @@ class MedicationListCreateView(generics.ListCreateAPIView):
     queryset = Medication.objects.all()
     serializer_class = MedicationSerializer
 
+    def get_queryset(self):
+        return Medication.objects.filter(user=self.request.user)
+
 
 class MedicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Medication.objects.all()
