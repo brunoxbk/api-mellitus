@@ -36,6 +36,10 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class ImageEmbSerializer(serializers.ModelSerializer):
+    file = serializers.SerializerMethodField()
+
+    def get_file(self, obj):
+        return obj.get_rendition("original").url
 
     class Meta:
         model = Image
