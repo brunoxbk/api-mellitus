@@ -1,12 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from django_currentuser.db.models import CurrentUserField
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.models import ClusterableModel
-from wagtail.admin.panels import InlinePanel
-
-
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.snippets.models import register_snippet
 
 # @register_snippet

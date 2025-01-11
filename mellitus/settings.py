@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from datetime import timedelta
+
 import dj_database_url
 from decouple import config
-from datetime import timedelta
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = PROJECT_DIR
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
     "instruments",
     "medications",
     "todo",
+    "glycemia",
 ]
 
 MIDDLEWARE = [
@@ -229,7 +231,9 @@ WAGTAILSEARCH_BACKENDS = {
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = config("WAGTAILADMIN_BASE_URL", cast=str, default="http://example.com")
+WAGTAILADMIN_BASE_URL = config(
+    "WAGTAILADMIN_BASE_URL", cast=str, default="http://example.com"
+)
 
 # Allowed file extensions for documents in the document library.
 # This can be omitted to allow all files, but note that this may present a security risk
