@@ -81,7 +81,7 @@ class PostPageSerializer(serializers.ModelSerializer):
 
     def get_body(self, obj):
         html = EditorHTMLConverter().from_database_format(obj.body)
-        return html.replace('src="/media/', 'src="' + settings.WAGTAILADMIN_BASE_URL + '/media/"')
+        return html.replace('src="/media/', 'src="' + settings.WAGTAILADMIN_BASE_URL + '/media/')
     
     class Meta:
         model = PostPage
