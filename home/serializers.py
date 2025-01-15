@@ -3,6 +3,7 @@ from .models import Category, PostPage
 from wagtail.images.models import Image
 import base64 as b64
 from django.conf import settings
+from wagtail.admin.rich_text.converters.editor_html import EditorHTMLConverter
 import os
 
 
@@ -75,6 +76,12 @@ class CategoryEmbSerializer(serializers.ModelSerializer):
 class PostPageSerializer(serializers.ModelSerializer):
     cover = ImageEmbSerializer()
     categories = CategoryEmbSerializer(many=True)
+
+    body = serializers.SerializerMethodField()
+
+    def get_body(self, obj):
+        html = EditorHTMLConverter().from_database_format(obj.body)
+        return html
     
     class Meta:
         model = PostPage
