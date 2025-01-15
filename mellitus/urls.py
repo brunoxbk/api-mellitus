@@ -36,6 +36,7 @@ urlpatterns = urlpatterns + [
     path("api/auth/registration/", include("dj_rest_auth.registration.urls")),
     path("api/instruments/", include("instruments.urls")),
     path("api/medications/", include("medications.urls")),
+    path("api/glycemia-logs/", include("glycemia.urls")),
     path("api/todo/", include("todo.urls")),
     path("", include(wagtail_urls)),
     path("", HomeView.as_view(), name="home"),
