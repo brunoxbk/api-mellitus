@@ -110,7 +110,7 @@ class Choice(ClusterableModel):
         db_table = "choices"
         verbose_name = "Alternativa"
         verbose_name_plural = "Alternativas"
-        ordering = ["-created_at"]
+        ordering = ["pk"]
 
 
 @register_snippet
