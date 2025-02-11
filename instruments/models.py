@@ -70,6 +70,7 @@ class Form(ClusterableModel):
     panels = [
         FieldPanel("title"),
         FieldPanel("description"),
+        FieldPanel("type_form"),
         InlinePanel("questions"),
     ]
 
