@@ -59,7 +59,7 @@ class Form(ClusterableModel):
             elif self.is_agrreement:
                 return answer.score_weight
             elif self.is_dichotomous:
-                return answer.score_dichotomous
+                return answer.score_dicotomic
         
         return 0
 
@@ -71,7 +71,7 @@ class Form(ClusterableModel):
             elif self.is_agrreement:
                 return answer.score_weight_text
             elif self.is_dichotomous:
-                return answer.score_dichotomous_text
+                return answer.score_dicotomic_text
         
         return ""
 
