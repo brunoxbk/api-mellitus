@@ -23,6 +23,7 @@ class Form(ClusterableModel):
     class TypeForm(models.TextChoices):
         OBJECTIVE = "1", "Objetiva"
         AGREEMENT = "2", "Concordância/Discordância"
+        DICHOTOMOUS = "3", "Dicotômica"
 
     title = models.CharField("Título", max_length=255)
     description = models.TextField("Descrição", max_length=800)
@@ -40,6 +41,10 @@ class Form(ClusterableModel):
     @property
     def is_agrreement(self):
         return self.type_form == self.TypeForm.AGREEMENT
+    
+    @property
+    def is_dichotomous(self):
+        return self.type_form == self.TypeForm.DICHOTOMOUS
 
     @property
     def answered(self):
@@ -51,21 +56,24 @@ class Form(ClusterableModel):
         if answer:
             if self.is_objective:
                 return answer.score_knowledge
-            if self.is_agrreement:
+            elif self.is_agrreement:
                 return answer.score_weight
-            return ""
-        else:
-            return 0
+            elif self.is_dichotomous:
+                return answer.score_dichotomous
+        
+        return 0
 
     def score_text(self):
         answer = self.form_sheet_answers.last()
         if answer:
             if self.is_objective:
                 return answer.score_knowledge_text
-            if self.is_agrreement:
+            elif self.is_agrreement:
                 return answer.score_weight_text
-        else:
-            return ""
+            elif self.is_dichotomous:
+                return answer.score_dichotomous_text
+        
+        return ""
 
     panels = [
         FieldPanel("title"),
@@ -149,6 +157,10 @@ class AnswerSheet(models.Model):
     ]
 
     @property
+    def score_dicotomic(self):
+        return self.sheet_answers.filter(choice__is_correct=True).count()
+
+    @property
     def score_knowledge(self):
         return self.sheet_answers.filter(choice__is_correct=True).count()
 
@@ -168,11 +180,25 @@ class AnswerSheet(models.Model):
 
     @property
     def score_knowledge_text(self):
-        if self.score_knowledge > 8:
-            result = "Conhecimento suficiente sobre diabetes mellitus."
+        count = self.score_dicotomic
+        if count <= 4:
+            return "Conhecimento Baixo"
+        elif 4 < count <= 8:
+            return "Conhecimento Moderado"
+        elif 8 < count <= 12:
+            return "Conhecimento Alto"
+        elif 12 < count <= 16:
+            return "Conhecimento Muito Alto"
         else:
-            result = "Conhecimento insuficiente sobre diabetes mellitus."
+            return "Fora do intervalo considerado"
 
+    
+    @property
+    def score_dicotomic_text(self):
+        if self.score_weight > 70:
+            result = "Atitude positiva em relação à doença."
+        else:
+            result = "Pontuação baixa em relação à doença."
         return result
 
     # def calculate_attitude_score(self, responses):
