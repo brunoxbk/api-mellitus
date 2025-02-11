@@ -29,6 +29,17 @@ class Form(ClusterableModel):
     created_at = models.DateTimeField("Criado em", editable=False, auto_now_add=True)
     updated_at = models.DateTimeField("Alterado em", editable=False, auto_now=True)
     # kind = models.ForeignKey(Kind, related_name='forms_kind', on_delete=models.CASCADE)
+    type_form = models.CharField(
+        "Tipo de resposta", max_length=1, choices=TypeForm.choices
+    )
+
+    @property
+    def is_objective(self):
+        return self.type_form == self.TypeForm.OBJECTIVE
+
+    @property
+    def is_agrreement(self):
+        return self.type_form == self.TypeForm.AGREEMENT
 
     @property
     def answered(self):
@@ -38,14 +49,21 @@ class Form(ClusterableModel):
         answer = self.form_sheet_answers.last()
 
         if answer:
-            return answer.score_knowledge
+            if self.is_objective:
+                return answer.score_knowledge
+            if self.is_agrreement:
+                return answer.score_weight
+            return ""
         else:
             return 0
 
     def score_text(self):
         answer = self.form_sheet_answers.last()
         if answer:
-            return answer.score_knowledge_text
+            if self.is_objective:
+                return answer.score_knowledge_text
+            if self.is_agrreement:
+                return answer.score_weight_text
         else:
             return ""
 
@@ -132,6 +150,20 @@ class AnswerSheet(models.Model):
     @property
     def score_knowledge(self):
         return self.sheet_answers.filter(choice__is_correct=True).count()
+
+    @property
+    def score_weight(self):
+        return self.sheet_answers.all().aggregate(models.Sum("choice__weight"))[
+            "choice__weight__sum"
+        ]
+
+    @property
+    def score_weight_text(self):
+        if self.score_weight > 70:
+            result = "Atitude positiva em relação à doença."
+        else:
+            result = "Pontuação baixa em relação à doença."
+        return result
 
     @property
     def score_knowledge_text(self):
