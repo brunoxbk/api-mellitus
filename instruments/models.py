@@ -41,7 +41,7 @@ class Form(ClusterableModel):
     @property
     def is_agrreement(self):
         return self.type_form == self.TypeForm.AGREEMENT
-    
+
     @property
     def is_dichotomous(self):
         return self.type_form == self.TypeForm.DICHOTOMOUS
@@ -60,7 +60,7 @@ class Form(ClusterableModel):
                 return answer.score_weight
             elif self.is_dichotomous:
                 return answer.score_dicotomic
-        
+
         return 0
 
     def score_text(self):
@@ -72,7 +72,7 @@ class Form(ClusterableModel):
                 return answer.score_weight_text
             elif self.is_dichotomous:
                 return answer.score_dicotomic_text
-        
+
         return ""
 
     panels = [
@@ -94,6 +94,17 @@ class Form(ClusterableModel):
 
 @register_snippet
 class Question(ClusterableModel):
+    class TypeQuestion(models.TextChoices):
+        OBJECTIVE = "1", "Objetiva"
+        MULTIPLE_CHOICE = "2", "Multipla escolha"
+
+    type = models.CharField(
+        "Tipo de resposta",
+        max_length=1,
+        choices=TypeQuestion.choices,
+        default=TypeQuestion.OBJECTIVE,
+    )
+    category = models.CharField("Categoria", max_length=80, blank=True, null=True)
     text = models.TextField("Enunciado", max_length=800)
     form = ParentalKey(
         "instruments.Form", related_name="questions", verbose_name="Formulário"
@@ -106,6 +117,14 @@ class Question(ClusterableModel):
         FieldPanel("text"),
         InlinePanel("choices"),
     ]
+
+    @property
+    def is_objective(self):
+        return self.type == self.TypeQuestion.OBJECTIVE
+
+    @property
+    def is_multiple_choice(self):
+        return self.type == self.TypeQuestion.MULTIPLE_CHOICE
 
     def __str__(self):
         return self.text
@@ -192,7 +211,6 @@ class AnswerSheet(models.Model):
         else:
             return "Fora do intervalo considerado"
 
-    
     @property
     def score_dicotomic_text(self):
         if self.score_weight > 70:
