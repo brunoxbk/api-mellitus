@@ -8,6 +8,8 @@ from modelcluster.fields import ParentalManyToManyField
 from django import forms
 from wagtail.api import APIField
 from wagtail.images.models import Image
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 
 class HomePage(Page):
     pass
@@ -63,3 +65,7 @@ class PostPage(Page):
         # FieldPanel('cover'),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
     ]
+
+    def save(self, *args, **kwargs):
+        cache.clear()
+        return super().save(*args, **kwargs)
