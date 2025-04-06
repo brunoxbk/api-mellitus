@@ -136,6 +136,14 @@ class Question(ClusterableModel):
         ordering = ["-created_at"]
 
 
+# O questionário traduzido e adaptado foi aplicado nos pacientes para a avaliação de seu comportamento na amostra. 
+# Para a análise da aderência aos itens do questionário, estes foram parametrizados em dias por semana, de 0 a 7,
+# sendo zero a situação menos desejável e sete a mais favorável. 
+# Nos itens da dimensão alimentação específica que questionam sobre o consumo de alimentos ricos em gordura e doces, 
+# os valores foram invertidos (se 7 = 0, 6 = 1, 5 = 2, 4 = 3, 3 = 4, 2 = 5, 1 = 6, 0 = 7 e vice-versa),
+# como sugerido no SDSCA revisado (4). A avaliação do tabagismo foi codificada considerando-se a proporção de fumantes,
+# a média de cigarros consumidos e a última vez em que fumou.
+
 class Choice(ClusterableModel):
     # question = models.ForeignKey(Question, related_name='choices', on_delete=models.CASCADE)
     question = ParentalKey(

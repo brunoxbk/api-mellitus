@@ -49,6 +49,12 @@ class PostPage(Page):
     cover = models.ForeignKey(
         'wagtailimages.Image', verbose_name="Capa",
         null=True, blank=True, on_delete=models.SET_NULL)
+    
+    url_video = models.CharField(verbose_name="Video", max_length=255, blank=True, null=True)
+
+    @property
+    def has_video(self):
+        return self.url_video != ''
 
     api_fields = [
         APIField('body'),

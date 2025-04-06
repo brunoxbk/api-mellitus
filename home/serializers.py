@@ -91,6 +91,8 @@ class PostPageSerializer(serializers.ModelSerializer):
             "subtitle",
             "body",
             "categories",
+            "url_video",
+            "has_video",
             "owner",
             "cover"
         ]
