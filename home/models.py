@@ -54,7 +54,7 @@ class PostPage(Page):
 
     @property
     def has_video(self):
-        return self.url_video != ''
+        return self.url_video is not None and self.url_video != ''
 
     api_fields = [
         APIField('body'),
