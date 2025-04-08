@@ -68,7 +68,7 @@ class PostPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('subtitle'),
         FieldPanel('body'),
-        # FieldPanel('cover'),
+        FieldPanel('url_video'),
         FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
     ]
 
