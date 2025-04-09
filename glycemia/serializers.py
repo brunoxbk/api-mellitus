@@ -9,18 +9,18 @@ class GlycemiaLogSerializer(serializers.ModelSerializer):
         model = GlycemiaLog
         fields = "__all__"
 
-    def validate(self, attrs):
+    # def validate(self, attrs):
 
-        user = self.context.get("request").user
+    #     user = self.context.get("request").user
 
-        date_only = timezone.now().date()
+    #     date_only = timezone.now().date()
 
-        if GlycemiaLog.objects.filter(
-            user=user, measurement_time__date=date_only
-        ).exists():
-            print("existe")
-            raise serializers.ValidationError(
-                "Já existe uma medição registrada para este usuário neste dia."
-            )
+    #     if GlycemiaLog.objects.filter(
+    #         user=user, measurement_time__date=date_only
+    #     ).exists():
+    #         print("existe")
+    #         raise serializers.ValidationError(
+    #             "Já existe uma medição registrada para este usuário neste dia."
+    #         )
 
-        return super().validate(attrs)
+    #     return super().validate(attrs)
