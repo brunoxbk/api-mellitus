@@ -97,3 +97,55 @@ class PostPageSerializer(serializers.ModelSerializer):
             "cover"
         ]
 
+
+
+# -------------------
+
+class RecursiveField(serializers.Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+class PostPageSerializer2(serializers.ModelSerializer):
+    cover_url = serializers.SerializerMethodField()
+    cover = ImageEmbSerializer()
+    categories = CategoryEmbSerializer(many=True)
+
+    body = serializers.SerializerMethodField()
+
+    def get_body(self, obj):
+        html = EditorHTMLConverter().from_database_format(obj.body)
+        return html.replace('src="/media/', 'src="' + settings.WAGTAILADMIN_BASE_URL + '/media/')
+    
+    class Meta:
+        model = PostPage
+        fields = [
+            'id',
+            'title',
+            'subtitle',
+            'url',
+            'body',
+            'cover',
+            'cover_url',
+            "url_video",
+            "has_video",
+            'categories']
+    
+    def get_cover_url(self, obj):
+        if obj.cover:
+            return obj.cover.get_rendition('original').url
+        return None
+
+class PageSerializer(serializers.ModelSerializer):
+    children = RecursiveField(many=True, source='get_children')
+    specific = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = PostPage
+        fields = ['id', 'title', 'url', 'children', 'specific']
+    
+    def get_specific(self, obj):
+        specific_obj = obj.specific
+        if isinstance(specific_obj, PostPage):
+            return PostPageSerializer(specific_obj).data
+        return None

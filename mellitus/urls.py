@@ -5,7 +5,7 @@ from django.contrib import admin
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
-from home.views import HomeView
+from home.views import HomeView, PageTreeAPIView
 from search import views as search_views
 from home.api import api_router, router
 
@@ -38,6 +38,7 @@ urlpatterns = urlpatterns + [
     path("api/medications/", include("medications.urls")),
     path("api/glycemia-logs/", include("glycemia.urls")),
     path("api/todo/", include("todo.urls")),
+    path("api/page-tree/", PageTreeAPIView.as_view(), name='page-tree'),
     path("", include(wagtail_urls)),
     path("", HomeView.as_view(), name="home"),
     # Alternatively, if you want Wagtail pages to be served from a subpath
